@@ -266,12 +266,19 @@ body {
 
   <div class="right-panel">
     <div class="shop">
-<h2>
-  🎁 Reward Shop
-  <span id="all-time-high" style="font-size: 14px; margin-left: 10px; color: #aaa;">
-    (High Score: 0)
-  </span>
-</h2>
+  function addXP(amount, description = "") {
+  xp += amount;
+  localStorage.setItem("xp", xp);
+  updateXPDisplay();
+
+  // Check if new high score
+  const highXP = parseInt(localStorage.getItem("highXP")) || 0;
+  if (xp > highXP) {
+    localStorage.setItem("highXP", xp);
+    updateHighXPDisplay();
+  }
+}
+
 
 
       <div id="rewards"></div>
@@ -391,29 +398,15 @@ body {
       localStorage.setItem("lastRelapse", lastRelapse);
       updateXPDisplay();
     }
-function addXP(amount, description = "") {
+    function addXP(amount, description = "") {
   xp += amount;
   localStorage.setItem("xp", xp);
   updateXPDisplay();
-
-  // Check if new high score
-  const highXP = parseInt(localStorage.getItem("highXP")) || 0;
-  if (xp > highXP) {
-    localStorage.setItem("highXP", xp);
-    updateHighXPDisplay();
-  }
-}
-
+  
   if (description) {
     logHistory(`${amount > 0 ? "+" : ""}${amount} XP: ${description}`);
   }
 }
-    function updateHighXPDisplay() {
-  const highXP = parseInt(localStorage.getItem("highXP")) || 0;
-  const el = document.getElementById("all-time-high");
-  if (el) el.textContent = `(High Score: ${highXP})`;
-}
-
 
     function redeemReward(name, cost) {
       if (xp >= cost) {
@@ -531,7 +524,27 @@ function redeemReward(name, cost) {
     showPopup(`Not enough XP for ${name}. ❌`);
   }
 }
-    
+function addXP(amount, description = "") {
+  xp += amount;
+  localStorage.setItem("xp", xp);
+  updateXPDisplay();
+
+  // Check if new high score
+  const highXP = parseInt(localStorage.getItem("highXP")) || 0;
+  if (xp > highXP) {
+    localStorage.setItem("highXP", xp);
+    updateHighXPDisplay();
+  }
+}
+
+  // Check if new high score
+  const highXP = parseInt(localStorage.getItem("highXP")) || 0;
+  if (xp > highXP) {
+    localStorage.setItem("highXP", xp);
+    updateHighXPDisplay();
+  }
+}
+
 
 playBtn.addEventListener("click", () => {
   video.play().then(() => {
@@ -542,7 +555,6 @@ playBtn.addEventListener("click", () => {
     console.error("Autoplay failed:", err);
   });
 });
-updateHighXPDisplay();
 
   </script>
 
