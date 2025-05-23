@@ -5,170 +5,152 @@
   <title>NoFap leveling</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
-      color: white;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .left-panel {
-      width: 60%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow-y: auto;
-      padding-right: 20px;
-    }
-    .right-panel {
-      width: 40%;
-      height: 100%;
-      overflow-y: auto;
-      padding-left: 20px;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      color: #fbd46d;
-      margin-bottom: 0.3em;
-    }
-
-    #xp-display {
-      font-size: 1.5em;
-      background: #222;
-      padding: 10px 20px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-
-    #rank-container {
-      background: #141421;
-      width: 550px;
-      height: 650px;
-      padding: 10px;
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-            margin: 20px 0;
-      box-shadow: 0 0 10px #000;
-    }
-
-    #rank-name {
-      font-size: 0px;
-      color: #6dfbf6;
-margin-left: 0px;
-
-    }
-
-    #rank-image {
-      width: 400px;
-      height: 400px;
-      object-fit: contain;
-margin-left: 75px;
-    }
-
-    button {
-      margin: 8px;
-      padding: 12px 20px;
-      font-size: 16px;
-      background-color: #2d2d44;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    button:hover {
-      background-color: #3f3f66;
-    }
-
-    .shop {
-      margin-top: 40px;
-    }
-
-    .reward {
-      background: #1c1c2e;
-      margin: 10px auto;
-      padding: 15px;
-      width: 280px;
-      border-radius: 12px;
-      box-shadow: 0 0 8px #000;
-    }
-
-    #last-relapse-timer {
-      font-weight: bold;
-      color: #c7f5ff;
-    }
-
-    #message {
-      color: #f08080;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    #motivation {
-      background-color: #1e1e30;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      font-style: italic;
-      color: #aaf;
-    }
-
-    textarea {
-      width: 100%;
-      max-width: 500px;
-      height: 100px;
-      margin-top: 1rem;
-      border-radius: 0.5rem;
-      padding: 0.7rem;
-      font-size: 1rem;
-      border: none;
-      resize: none;
-    }
-function showPopup(message, duration = 2000) {
-  const popup = document.getElementById('popup');
-  popup.textContent = message;
-  popup.style.display = 'block';
-  
-  setTimeout(() => {
-    popup.style.display = 'none';
-  }, duration);
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+  color: white;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  overflow: hidden;
 }
 
-function showPopup(message, duration = 2000) {
-  const popup = document.getElementById('popup');
-  popup.textContent = message;
-  popup.style.opacity = '1';
-  popup.style.top = '20px';
-
-  setTimeout(() => {
-    popup.style.top = '-60px';
-    popup.style.opacity = '0';
-  }, duration);
+.left-panel {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  padding-right: 20px;
 }
 
-// Updated redeemReward to show popup messages
-function redeemReward(name, cost) {
-  if (xp >= cost) {
-    xp -= cost;
-    updateXPDisplay();
-    showPopup(`Purchased: ${name} 🎉`);
-    document.getElementById("message").textContent = '';
-  } else {
-    showPopup(`Not enough XP for ${name}. ❌`);
-  }
+.right-panel {
+  width: 40%;
+  height: 100%;
+  overflow-y: auto;
+  padding-left: 20px;
 }
+
+h1 {
+  font-size: 2.5em;
+  color: #fbd46d;
+  margin-bottom: 0.3em;
 }
-#container {
-  transform-origin: top left;
-  transform: scale(0.8);
-  width: 125%; /* compensate width for scaling */
-  height: 125%; /* optional, same for height */
+
+#xp-display {
+  font-size: 1.5em;
+  background: #222;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+#rank-container {
+  background: #141421;
+  width: 430px;      /* smaller width */
+  height: 230px;     /* smaller height */
+  padding: 10px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  box-shadow: 0 0 10px #000;
+}
+
+#rank-image {
+  width: 350px;
+  height: 250px;
+  object-fit: contain;
+  margin: 0;         /* no extra margin */
+}
+
+/* Keep the rank name element present but visually hidden */
+#rank-name {
+  font-size: 0;
+  line-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Buttons */
+button {
+  margin: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #2d2d44;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background-color: #3f3f66;
+}
+
+.shop {
+  margin-top: 40px;
+}
+
+.reward {
+  background: #1c1c2e;
+  margin: 10px auto;
+  padding: 15px;
+  width: 280px;
+  border-radius: 12px;
+  box-shadow: 0 0 8px #000;
+}
+
+#last-relapse-timer {
+  font-weight: bold;
+  color: #c7f5ff;
+}
+
+#message {
+  color: #f08080;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#motivation {
+  background-color: #1e1e30;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  font-style: italic;
+  color: #aaf;
+}
+
+textarea {
+  width: 100%;
+  max-width: 500px;
+  height: 100px;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  padding: 0.7rem;
+  font-size: 1rem;
+  border: none;
+  resize: none;
+}
+
+/* Popup */
+#popup {
+  position: fixed;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 1000;
+  box-shadow: 0 0 10px #000;
+  transition: top 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
 }
 
   </style>
