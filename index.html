@@ -244,9 +244,9 @@ body {
     <p>⏱️ Last Relapse: <span id="last-relapse-timer">Never</span></p>
 
     <div>
-      <button onclick="gainXP(10)">+10 XP: Resist Urge</button>
-      <button onclick="gainXP(50)">+50 XP: Full Day Clean</button>
-      <button onclick="relapse()">-50 XP: Relapse</button>
+      <button data-action="+10 XP: Resist Urge" onclick="gainXP(10)">+10 XP: Resist Urge</button>
+      <button data-action="+50 XP: Full Day Clean" onclick="gainXP(50)">+50 XP: Full Day Clean</button>
+      <button data-action="-50 XP: Relapse" onclick="relapse()">-50 XP: Relapse</button>
     </div>
 
     <textarea id="notes" placeholder="Write your thoughts, poetry, wins, mindset..." oninput="saveNotes()"></textarea>
@@ -388,6 +388,15 @@ body {
       localStorage.setItem("lastRelapse", lastRelapse);
       updateXPDisplay();
     }
+    function addXP(amount, description = "") {
+  xp += amount;
+  localStorage.setItem("xp", xp);
+  updateXPDisplay();
+  
+  if (description) {
+    logHistory(`${amount > 0 ? "+" : ""}${amount} XP: ${description}`);
+  }
+}
 
     function redeemReward(name, cost) {
       if (xp >= cost) {
@@ -398,6 +407,42 @@ body {
         document.getElementById("message").textContent = `Not enough XP for ${name}.`;
       }
     }
+function redeemReward(cost, rewardName) {
+  if (xp >= cost) {
+    xp -= cost;
+    localStorage.setItem("xp", xp);
+    updateXPDisplay();
+    logHistory(`-${cost} XP: ${rewardName}`);
+  } else {
+    alert("Not enough XP!");
+  }
+}
+function logHistory(entry) {
+  const date = new Date().toLocaleString();
+  const fullEntry = `${entry} – ${date}`;
+  
+  const history = JSON.parse(localStorage.getItem("xpHistory")) || [];
+  history.unshift(fullEntry);
+  localStorage.setItem("xpHistory", JSON.stringify(history));
+
+  // Update display if history is open
+  const list = document.getElementById("history-list");
+  if (list) {
+    const item = document.createElement("li");
+    item.textContent = fullEntry;
+    list.prepend(item);
+  }
+}
+
+function restoreHistory() {
+  const history = JSON.parse(localStorage.getItem("xpHistory")) || [];
+  const list = document.getElementById("history-list");
+  history.forEach(entry => {
+    const item = document.createElement("li");
+    item.textContent = entry;
+    list.appendChild(item);
+  });
+}
 
     function updateRewards() {
       rewardsDiv.innerHTML = '';
