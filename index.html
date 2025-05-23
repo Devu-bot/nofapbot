@@ -154,6 +154,63 @@ textarea {
   transition: top 0.4s ease, opacity 0.4s ease;
   opacity: 0;
 }
+/* Base styles for desktop (default) */
+body {
+  font-size: 16px;
+}
+
+/* Tablet view (768px to 1024px) */
+@media (max-width: 1024px) {
+  #rank-container {
+    width: 90%;
+    height: 50px;
+    margin: 10px auto;
+  }
+  #rank-image {
+    max-width: 200px;
+    max-height: 50px;
+  }
+  .section {
+    width: 90%;
+    margin: 15px auto;
+    padding: 15px;
+  }
+}
+
+/* Mobile view (less than 768px) */
+@media (max-width: 767px) {
+  #rank-container {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    padding: 10px 0;
+  }
+
+  #rank-image {
+    max-width: 100%;
+    max-height: 40px;
+  }
+
+  #xp-bar {
+    width: 100%;
+  }
+
+  .section {
+    width: 95%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  textarea {
+    font-size: 14px;
+    height: 100px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
 
   </style>
 </head>
