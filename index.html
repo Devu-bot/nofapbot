@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=0.8">
-
   <title>NoFap leveling</title>
   <style>
     body {
@@ -34,7 +32,7 @@
   padding-left: 20px;
 }
 
-h2 {
+h1 {
   font-size: 2.5em;
   color: #fbd46d;
   margin-bottom: 0.3em;
@@ -62,8 +60,8 @@ h2 {
 }
 
 #rank-image {
-  width:  330px;
-  height: 230px;
+  width: 320px;
+  height: 220px;
   object-fit: contain;
   margin: 0;         /* no extra margin */
 }
@@ -154,71 +152,13 @@ textarea {
   transition: top 0.4s ease, opacity 0.4s ease;
   opacity: 0;
 }
-/* Base styles for desktop (default) */
-body {
-  font-size: 16px;
-}
-
-/* Tablet view (768px to 1024px) */
-@media (max-width: 1024px) {
-  #rank-container {
-    width: 90%;
-    height: 50px;
-    margin: 10px auto;
-  }
-  #rank-image {
-    max-width: 200px;
-    max-height: 50px;
-  }
-  .section {
-    width: 90%;
-    margin: 15px auto;
-    padding: 15px;
-  }
-}
-
-/* Mobile view (less than 768px) */
-@media (max-width: 767px) {
-  #rank-container {
-    flex-direction: column;
-    align-items: center;
-    height: auto;
-    padding: 10px 0;
-  }
-
-  #rank-image {
-    max-width: 100%;
-    max-height: 40px;
-  }
-
-  #xp-bar {
-    width: 100%;
-  }
-
-  .section {
-    width: 95%;
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  textarea {
-    font-size: 14px;
-    height: 100px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 8px;
-  }
-}
-
   </style>
 </head>
 <body>
 <video id="bgmVideo" src="hooker.mp4" preload="auto" loop style="display: none;"></video>
 
   <div class="left-panel">
-    <h2>NoFap leveling: Turn Your Life into a Game</h2>
+    <h1>NoFap leveling: Turn Your Life into a Game</h1>
     <p id="xp-display">XP: 0</p>
 
     <div id="rank-container">
@@ -244,9 +184,9 @@ body {
     <p>⏱️ Last Relapse: <span id="last-relapse-timer">Never</span></p>
 
     <div>
-      <button data-action="+10 XP: Resist Urge" onclick="gainXP(10)">+10 XP: Resist Urge</button>
-      <button data-action="+50 XP: Full Day Clean" onclick="gainXP(50)">+50 XP: Full Day Clean</button>
-      <button data-action="-50 XP: Relapse" onclick="relapse()">-50 XP: Relapse</button>
+      <button onclick="gainXP(10)">+10 XP: Resist Urge</button>
+      <button onclick="gainXP(50)">+50 XP: Full Day Clean</button>
+      <button onclick="relapse()">-50 XP: Relapse</button>
     </div>
 
     <textarea id="notes" placeholder="Write your thoughts, poetry, wins, mindset..." oninput="saveNotes()"></textarea>
@@ -266,303 +206,9 @@ body {
 
   <div class="right-panel">
     <div class="shop">
-<h2 style="margin: 0;">🎁 Reward Shop</h2>
-
-
-
+      <h2>🎁 Reward Shop</h2>
       <div id="rewards"></div>
       <p id="message"></p>
     </div>
   </div>
-  <div id="history-log" style="display: none; margin-top: 20px; padding: 15px; background-color: #1e1e2f; border-radius: 10px; color: #fff;">
-  <h3>📜 History Log</h3>
-  <ul style="list-style: none; padding: 0;">
-    <li>💪 Resisted Urge – <strong>+10 XP</strong> (2025-05-23)</li>
-    <li>☀️ Full Day Clean – <strong>+50 XP</strong> (2025-05-23)</li>
-    <li>🍦 Ice Cream Redeemed – <strong>-25 XP</strong> (2025-05-22)</li>
-    <li>💥 Relapsed – <strong>-50 XP</strong> (2025-05-21)</li>
-  </ul>
-</div>
-<script>
-  function toggleHistory() {
-    const log = document.getElementById('history-log');
-    log.style.display = log.style.display === 'none' ? 'block' : 'none';
-  }
-</script>
-
-<script>
-  const video = document.getElementById("bgmVideo");
-  const playBtn = document.getElementById("playButton");
-  const volumeSlider = document.getElementById("volumeSlider");
-
-  // Set initial volume
-  video.volume = 0.65;
-
-  // Play on button click
-  playBtn.addEventListener("click", () => {
-    video.play().then(() => {
-      console.log("Video playing.");
-    }).catch(err => {
-      console.error("Autoplay failed:", err);
-    });
-  });
-
-  // Volume slider control
-  volumeSlider.addEventListener("input", () => {
-    video.volume = parseFloat(volumeSlider.value);
-  });
-</script>
-  <script>
-    let xp = parseInt(localStorage.getItem("xp")) || 0;
-    let lastRelapse = localStorage.getItem("lastRelapse") ? new Date(localStorage.getItem("lastRelapse")) : null;
-    const baseCosts = {
-      'Ice Cream 🍦': 25,
-      'Movie Night 🎬': 50,
-      'Chill Day 🛌': 75,
-      'Power Snack 💪': 100,
-      '30 Min Scroll 📱': 50,
-      '30 Min Game 🎮': 15
-    };
-    const startMonth = new Date().getMonth();
-    const rewardsDiv = document.getElementById("rewards");
-
-    const motivationQuotes = [
-      "Discipline is choosing between what you want now and what you want most.",
-      "Every urge resisted is a victory for your future self.",
-      "You are not your impulses. You are your decisions.",
-      "Pain is temporary. Pride is forever.",
-      "One step back doesn’t erase a thousand steps forward.",
-      "The more you fight, the stronger you become.",
-      "Self-control is real power.",
-      "You don’t need it. You need progress.",
-      "Break the cycle, build your empire.",
-      "Your goals > temporary pleasure."
-    ];
-
-    function getInflatedCost(base) {
-      let now = new Date();
-      let monthDiff = now.getMonth() - startMonth;
-      if (monthDiff < 0) monthDiff += 12;
-      return Math.round(base * Math.pow(1.5, monthDiff));
-    }
-
-    function updateXPDisplay() {
-      document.getElementById("xp-display").textContent = `XP: ${xp}`;
-      updateRank();
-      updateRewards();
-      localStorage.setItem("xp", xp);
-    }
-
-    function updateRank() {
-      const rankName = document.getElementById("rank-name");
-      const rankImage = document.getElementById("rank-image");
-      let rank = "E", img = "rank-e.png";
-
-      if (xp >= 1000) {
-        rank = "Shadow Monarch 👑"; img = "rank-monarch.png";
-      } else if (xp >= 600) {
-        rank = "S"; img = "rank-s.png";
-      } else if (xp >= 300) {
-        rank = "A"; img = "rank-a.png";
-      } else if (xp >= 150) {
-        rank = "B"; img = "rank-b.png";
-      } else if (xp >= 50) {
-        rank = "C"; img = "rank-c.png";
-      } else if (xp >= 1) {
-        rank = "D"; img = "rank-d.png";
-      }
-
-      rankName.textContent = `Rank: ${rank}`;
-      rankImage.src = `ranks/${img}`;
-    }
-
-    function gainXP(amount) {
-      xp += amount;
-      updateXPDisplay();
-    }
-
-    function relapse() {
-      xp -= 50;
-      lastRelapse = new Date();
-      localStorage.setItem("lastRelapse", lastRelapse);
-      updateXPDisplay();
-    }
-    function addXP(amount, description = "") {
-  xp += amount;
-  localStorage.setItem("xp", xp);
-  updateXPDisplay();
-  
-  if (description) {
-    logHistory(`${amount > 0 ? "+" : ""}${amount} XP: ${description}`);
-  }
-}
-
-    function redeemReward(name, cost) {
-      if (xp >= cost) {
-        xp -= cost;
-        document.getElementById("message").textContent = `Enjoy your ${name}! 🎉`;
-        updateXPDisplay();
-      } else {
-        document.getElementById("message").textContent = `Not enough XP for ${name}.`;
-      }
-    }
-function redeemReward(cost, rewardName) {
-  if (xp >= cost) {
-    xp -= cost;
-    localStorage.setItem("xp", xp);
-    updateXPDisplay();
-    logHistory(`-${cost} XP: ${rewardName}`);
-  } else {
-    alert("Not enough XP!");
-  }
-}
-function logHistory(entry) {
-  const date = new Date().toLocaleString();
-  const fullEntry = `${entry} – ${date}`;
-  
-  const history = JSON.parse(localStorage.getItem("xpHistory")) || [];
-  history.unshift(fullEntry);
-  localStorage.setItem("xpHistory", JSON.stringify(history));
-
-  // Update display if history is open
-  const list = document.getElementById("history-list");
-  if (list) {
-    const item = document.createElement("li");
-    item.textContent = fullEntry;
-    list.prepend(item);
-  }
-}
-
-function restoreHistory() {
-  const history = JSON.parse(localStorage.getItem("xpHistory")) || [];
-  const list = document.getElementById("history-list");
-  history.forEach(entry => {
-    const item = document.createElement("li");
-    item.textContent = entry;
-    list.appendChild(item);
-  });
-}
-
-    function updateRewards() {
-      rewardsDiv.innerHTML = '';
-      for (let name in baseCosts) {
-        let cost = getInflatedCost(baseCosts[name]);
-        rewardsDiv.innerHTML += `
-          <div class="reward">
-            <p>${name} - <strong>${cost} XP</strong></p>
-            <button onclick="redeemReward('${name}', ${cost})">Redeem</button>
-          </div>
-        `;
-      }
-    }
-
-    function updateRelapseTimer() {
-      const display = document.getElementById("last-relapse-timer");
-      if (!lastRelapse) {
-        display.textContent = "Never";
-        return;
-      }
-
-      const now = new Date();
-      const diff = now - lastRelapse;
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-
-      display.textContent = `${h}h ${m}m ${s}s`;
-    }
-
-    function updateMotivation() {
-      const quote = motivationQuotes[Math.floor(Math.random() * motivationQuotes.length)];
-      document.getElementById("motivation").textContent = quote;
-    }
-
-    setInterval(updateRelapseTimer, 1000);
-    setInterval(updateMotivation, 15000);
-
-    function saveNotes() {
-      localStorage.setItem("userNotes", document.getElementById("notes").value);
-    }
-
-    document.getElementById("notes").value = localStorage.getItem("userNotes") || "";
-
-    updateXPDisplay();
-    updateRelapseTimer();
-    updateMotivation();
-
-function showPopup(message, duration = 2000) {
-  const popup = document.getElementById('popup');
-  popup.textContent = message;
-  popup.style.opacity = '1';
-  popup.style.top = '20px';
-
-  setTimeout(() => {
-    popup.style.top = '-60px';
-    popup.style.opacity = '0';
-  }, duration);
-}
-
-// Updated redeemReward to show popup messages
-function redeemReward(name, cost) {
-  if (xp >= cost) {
-    xp -= cost;
-    updateXPDisplay();
-    showPopup(`Purchased: ${name} 🎉`);
-    document.getElementById("message").textContent = '';
-  } else {
-    showPopup(`Not enough XP for ${name}. ❌`);
-  }
-}
-function addXP(amount, description = "") {
-  xp += amount;
-  localStorage.setItem("xp", xp);
-  updateXPDisplay();
-
-  // Check if new high score
-  const highXP = parseInt(localStorage.getItem("highXP")) || 0;
-  if (xp > highXP) {
-    localStorage.setItem("highXP", xp);
-    updateHighXPDisplay();
-  }
-}
-
-  // Check if new high score
-  const highXP = parseInt(localStorage.getItem("highXP")) || 0;
-  if (xp > highXP) {
-    localStorage.setItem("highXP", xp);
-    updateHighXPDisplay();
-  }
-}
-
-
-playBtn.addEventListener("click", () => {
-  video.play().then(() => {
-    console.log("Video playing.");
-    // Hide the button so it doesn't block clicks anymore
-    playBtn.style.display = "none";
-  }).catch(err => {
-    console.error("Autoplay failed:", err);
-  });
-});
-
-  </script>
-
-<div id="popup" style="
-  position: fixed;
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #333;
-  color: #fff;
-  padding: 12px 25px;
-  border-radius: 8px;
-  font-weight: bold;
-  z-index: 1000;
-  box-shadow: 0 0 10px #000;
-  transition: top 0.4s ease, opacity 0.4s ease;
-  opacity: 0;
-"></div>
-
-
-</body>
-</html>
+<!-- JavaScript continues after this -->
