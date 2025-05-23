@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NoFap leveling</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+      color: white;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .left-panel {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      padding-right: 20px;
+    }
+    .right-panel {
+      width: 40%;
+      height: 100%;
+      overflow-y: auto;
+      padding-left: 20px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #fbd46d;
+      margin-bottom: 0.3em;
+    }
+
+    #xp-display {
+      font-size: 1.5em;
+      background: #222;
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    #rank-container {
+      background: #141421;
+      width: 550px;
+      height: 650px;
+      padding: 10px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+            margin: 20px 0;
+      box-shadow: 0 0 10px #000;
+    }
+
+    #rank-name {
+      font-size: 0px;
+      color: #6dfbf6;
+margin-left: 0px;
+
+    }
+
+    #rank-image {
+      width: 400px;
+      height: 400px;
+      object-fit: contain;
+margin-left: 75px;
+    }
+
+    button {
+      margin: 8px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #2d2d44;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: #3f3f66;
+    }
+
+    .shop {
+      margin-top: 40px;
+    }
+
+    .reward {
+      background: #1c1c2e;
+      margin: 10px auto;
+      padding: 15px;
+      width: 280px;
+      border-radius: 12px;
+      box-shadow: 0 0 8px #000;
+    }
+
+    #last-relapse-timer {
+      font-weight: bold;
+      color: #c7f5ff;
+    }
+
+    #message {
+      color: #f08080;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    #motivation {
+      background-color: #1e1e30;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      font-style: italic;
+      color: #aaf;
+    }
+
+    textarea {
+      width: 100%;
+      max-width: 500px;
+      height: 100px;
+      margin-top: 1rem;
+      border-radius: 0.5rem;
+      padding: 0.7rem;
+      font-size: 1rem;
+      border: none;
+      resize: none;
+    }
+function showPopup(message, duration = 2000) {
+  const popup = document.getElementById('popup');
+  popup.textContent = message;
+  popup.style.display = 'block';
+  
+  setTimeout(() => {
+    popup.style.display = 'none';
+  }, duration);
+}
+
+function showPopup(message, duration = 2000) {
+  const popup = document.getElementById('popup');
+  popup.textContent = message;
+  popup.style.opacity = '1';
+  popup.style.top = '20px';
+
+  setTimeout(() => {
+    popup.style.top = '-60px';
+    popup.style.opacity = '0';
+  }, duration);
+}
+
+// Updated redeemReward to show popup messages
+function redeemReward(name, cost) {
+  if (xp >= cost) {
+    xp -= cost;
+    updateXPDisplay();
+    showPopup(`Purchased: ${name} 🎉`);
+    document.getElementById("message").textContent = '';
+  } else {
+    showPopup(`Not enough XP for ${name}. ❌`);
+  }
+}
+}
+
+  </style>
+</head>
+<body>
+<video id="bgmVideo" src="hooker.mp4" preload="auto" loop style="display: none;"></video>
+
+  <div class="left-panel">
+    <h1>NoFap leveling: Turn Your Life into a Game</h1>
+    <p id="xp-display">XP: 0</p>
+
+    <div id="rank-container">
+      <span id="rank-name"></span>
+<br>
+      <img id="rank-image" src="ranks/rank-e.png" alt="Rank Image">
+    </div>
+
+ <button id="playButton" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+"></button>
+
+    <div id="motivation">Stay strong. Your future self will thank you.</div>
+
+    <p>⏱️ Last Relapse: <span id="last-relapse-timer">Never</span></p>
+
+    <div>
+      <button onclick="gainXP(10)">+10 XP: Resist Urge</button>
+      <button onclick="gainXP(50)">+50 XP: Full Day Clean</button>
+      <button onclick="relapse()">-50 XP: Relapse</button>
+    </div>
+
+    <textarea id="notes" placeholder="Write your thoughts, poetry, wins, mindset..." oninput="saveNotes()"></textarea>
+  </div>
+<div id="volumeControl" style="
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1000;
+  opacity: 0.8;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px;
+  border-radius: 6px;
+">
+  <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.65" title="Volume" />
+</div>
+
+  <div class="right-panel">
+    <div class="shop">
+      <h2>🎁 Reward Shop</h2>
+      <div id="rewards"></div>
+      <p id="message"></p>
+    </div>
+  </div>
+<script>
+  const video = document.getElementById("bgmVideo");
+  const playBtn = document.getElementById("playButton");
+  const volumeSlider = document.getElementById("volumeSlider");
+
+  // Set initial volume
+  video.volume = 0.65;
+
+  // Play on button click
+  playBtn.addEventListener("click", () => {
+    video.play().then(() => {
+      console.log("Video playing.");
+    }).catch(err => {
+      console.error("Autoplay failed:", err);
+    });
+  });
+
+  // Volume slider control
+  volumeSlider.addEventListener("input", () => {
+    video.volume = parseFloat(volumeSlider.value);
+  });
+</script>
+  <script>
+    let xp = parseInt(localStorage.getItem("xp")) || 0;
+    let lastRelapse = localStorage.getItem("lastRelapse") ? new Date(localStorage.getItem("lastRelapse")) : null;
+    const baseCosts = {
+      'Ice Cream 🍦': 25,
+      'Movie Night 🎬': 50,
+      'Chill Day 🛌': 75,
+      'Power Snack 💪': 100,
+      '30 Min Scroll 📱': 50,
+      '30 Min Game 🎮': 15
+    };
+    const startMonth = new Date().getMonth();
+    const rewardsDiv = document.getElementById("rewards");
+
+    const motivationQuotes = [
+      "Discipline is choosing between what you want now and what you want most.",
+      "Every urge resisted is a victory for your future self.",
+      "You are not your impulses. You are your decisions.",
+      "Pain is temporary. Pride is forever.",
+      "One step back doesn’t erase a thousand steps forward.",
+      "The more you fight, the stronger you become.",
+      "Self-control is real power.",
+      "You don’t need it. You need progress.",
+      "Break the cycle, build your empire.",
+      "Your goals > temporary pleasure."
+    ];
+
+    function getInflatedCost(base) {
+      let now = new Date();
+      let monthDiff = now.getMonth() - startMonth;
+      if (monthDiff < 0) monthDiff += 12;
+      return Math.round(base * Math.pow(1.5, monthDiff));
+    }
+
+    function updateXPDisplay() {
+      document.getElementById("xp-display").textContent = `XP: ${xp}`;
+      updateRank();
+      updateRewards();
+      localStorage.setItem("xp", xp);
+    }
+
+    function updateRank() {
+      const rankName = document.getElementById("rank-name");
+      const rankImage = document.getElementById("rank-image");
+      let rank = "E", img = "rank-e.png";
+
+      if (xp >= 1000) {
+        rank = "Shadow Monarch 👑"; img = "rank-monarch.png";
+      } else if (xp >= 600) {
+        rank = "S"; img = "rank-s.png";
+      } else if (xp >= 300) {
+        rank = "A"; img = "rank-a.png";
+      } else if (xp >= 150) {
+        rank = "B"; img = "rank-b.png";
+      } else if (xp >= 50) {
+        rank = "C"; img = "rank-c.png";
+      } else if (xp >= 1) {
+        rank = "D"; img = "rank-d.png";
+      }
+
+      rankName.textContent = `Rank: ${rank}`;
+      rankImage.src = `ranks/${img}`;
+    }
+
+    function gainXP(amount) {
+      xp += amount;
+      updateXPDisplay();
+    }
+
+    function relapse() {
+      xp -= 50;
+      lastRelapse = new Date();
+      localStorage.setItem("lastRelapse", lastRelapse);
+      updateXPDisplay();
+    }
+
+    function redeemReward(name, cost) {
+      if (xp >= cost) {
+        xp -= cost;
+        document.getElementById("message").textContent = `Enjoy your ${name}! 🎉`;
+        updateXPDisplay();
+      } else {
+        document.getElementById("message").textContent = `Not enough XP for ${name}.`;
+      }
+    }
+
+    function updateRewards() {
+      rewardsDiv.innerHTML = '';
+      for (let name in baseCosts) {
+        let cost = getInflatedCost(baseCosts[name]);
+        rewardsDiv.innerHTML += `
+          <div class="reward">
+            <p>${name} - <strong>${cost} XP</strong></p>
+            <button onclick="redeemReward('${name}', ${cost})">Redeem</button>
+          </div>
+        `;
+      }
+    }
+
+    function updateRelapseTimer() {
+      const display = document.getElementById("last-relapse-timer");
+      if (!lastRelapse) {
+        display.textContent = "Never";
+        return;
+      }
+
+      const now = new Date();
+      const diff = now - lastRelapse;
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+
+      display.textContent = `${h}h ${m}m ${s}s`;
+    }
+
+    function updateMotivation() {
+      const quote = motivationQuotes[Math.floor(Math.random() * motivationQuotes.length)];
+      document.getElementById("motivation").textContent = quote;
+    }
+
+    setInterval(updateRelapseTimer, 1000);
+    setInterval(updateMotivation, 15000);
+
+    function saveNotes() {
+      localStorage.setItem("userNotes", document.getElementById("notes").value);
+    }
+
+    document.getElementById("notes").value = localStorage.getItem("userNotes") || "";
+
+    updateXPDisplay();
+    updateRelapseTimer();
+    updateMotivation();
+
+function showPopup(message, duration = 2000) {
+  const popup = document.getElementById('popup');
+  popup.textContent = message;
+  popup.style.opacity = '1';
+  popup.style.top = '20px';
+
+  setTimeout(() => {
+    popup.style.top = '-60px';
+    popup.style.opacity = '0';
+  }, duration);
+}
+
+// Updated redeemReward to show popup messages
+function redeemReward(name, cost) {
+  if (xp >= cost) {
+    xp -= cost;
+    updateXPDisplay();
+    showPopup(`Purchased: ${name} 🎉`);
+    document.getElementById("message").textContent = '';
+  } else {
+    showPopup(`Not enough XP for ${name}. ❌`);
+  }
+}
+
+playBtn.addEventListener("click", () => {
+  video.play().then(() => {
+    console.log("Video playing.");
+    // Hide the button so it doesn't block clicks anymore
+    playBtn.style.display = "none";
+  }).catch(err => {
+    console.error("Autoplay failed:", err);
+  });
+});
+
+  </script>
+
+<div id="popup" style="
+  position: fixed;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 1000;
+  box-shadow: 0 0 10px #000;
+  transition: top 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+"></div>
+
+
+</body>
+</html>
