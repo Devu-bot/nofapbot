@@ -266,11 +266,31 @@ body {
 
   <div class="right-panel">
     <div class="shop">
-      <h2>🎁 Reward Shop</h2>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+  <h2 style="margin: 0;">🎁 Reward Shop</h2>
+  <button onclick="toggleHistory()" style="margin-left: 10px; padding: 6px 12px; font-size: 14px; border-radius: 6px; background-color: #444; color: #fff; border: none; cursor: pointer;">📜 History</button>
+</div>
+
       <div id="rewards"></div>
       <p id="message"></p>
     </div>
   </div>
+  <div id="history-log" style="display: none; margin-top: 20px; padding: 15px; background-color: #1e1e2f; border-radius: 10px; color: #fff;">
+  <h3>📜 History Log</h3>
+  <ul style="list-style: none; padding: 0;">
+    <li>💪 Resisted Urge – <strong>+10 XP</strong> (2025-05-23)</li>
+    <li>☀️ Full Day Clean – <strong>+50 XP</strong> (2025-05-23)</li>
+    <li>🍦 Ice Cream Redeemed – <strong>-25 XP</strong> (2025-05-22)</li>
+    <li>💥 Relapsed – <strong>-50 XP</strong> (2025-05-21)</li>
+  </ul>
+</div>
+<script>
+  function toggleHistory() {
+    const log = document.getElementById('history-log');
+    log.style.display = log.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
+
 <script>
   const video = document.getElementById("bgmVideo");
   const playBtn = document.getElementById("playButton");
